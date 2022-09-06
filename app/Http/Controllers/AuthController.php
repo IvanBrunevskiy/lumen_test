@@ -18,7 +18,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     public function register(Request $request) {
@@ -74,7 +74,7 @@ class AuthController extends Controller
         $r = Auth::guard();
 //        return response('$content', 200)
 //            ->header('Content-Type', '$value')->withCookie(new Cookie('fff', '6546'));
-        return $this->respondWithToken($token)->withCookie(new Cookie('token', $token, 0, '/', 'http://localhost:3000/'));
+        return $this->respondWithToken($token);
     }
 
     /**
@@ -84,9 +84,21 @@ class AuthController extends Controller
      */
     public function logout()
     {
+
         auth()->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    /**
+     * Log the user out (Invalidate the token).
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function check(Request $request)
+    {
+        $user = Auth::user();
+        return response()->json(['message' => 'Successfully!!!', 'user' => $user]);
     }
 
     /**
@@ -101,7 +113,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+//            'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
 }
