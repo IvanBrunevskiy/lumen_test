@@ -1,18 +1,21 @@
 import React from "react";
 import styles from "./styles.module.scss";
-import {Cookies} from "react-cookie";
 import {Link} from "react-router-dom";
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
 const Buttons = () => {
     return (
-        <div className={styles.header_buttons}>
+        <Stack direction="row" spacing={2}>
+        <div className={styles.header_buttons_lr}>
             <Link to={'/login'}>
-            <button type={"submit"} name={'login'}>Login</button>
+            <Button type={"submit"} name={'login'} variant="contained" color="success">Login</Button>
             </Link>
             <Link to={'/register'}>
-            <button type={"submit"} name={'login'}>Register</button>
+            <Button variant="contained" type={"submit"} name={'login'}>Register</Button>
             </Link>
         </div>
+        </Stack>
         )
 }
 

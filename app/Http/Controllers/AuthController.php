@@ -21,7 +21,8 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
-    public function register(Request $request) {
+    public function register(Request $request)
+    {
         $name = $request->name;
         $email = $request->email;
         $password = $request->password;
@@ -56,7 +57,8 @@ class AuthController extends Controller
         }
     }
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
 //        dd($request);
         $email = $request->email;
         $password = $request->password;
@@ -72,8 +74,7 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         $r = Auth::guard();
-//        return response('$content', 200)
-//            ->header('Content-Type', '$value')->withCookie(new Cookie('fff', '6546'));
+
         return $this->respondWithToken($token);
     }
 
@@ -84,10 +85,9 @@ class AuthController extends Controller
      */
     public function logout()
     {
-
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'Successfully logged out', 'status' => 200]);
     }
 
     /**
@@ -104,7 +104,7 @@ class AuthController extends Controller
     /**
      * Get the token array structure.
      *
-     * @param  string $token
+     * @param string $token
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -113,6 +113,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
+            'status' => 200,
 //            'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }

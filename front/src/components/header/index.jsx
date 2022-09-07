@@ -3,8 +3,8 @@ import styles from "./styles.module.scss";
 import Buttons from "./buttons";
 import {Cookies} from "react-cookie";
 import axios from "axios";
-import {useEffect, useState, useRef} from "react";
-import data from "bootstrap/js/src/dom/data";
+import {useEffect, useState} from "react";
+import Logout from "./logout";
 
 const Header = () => {
     const cookies = new Cookies();
@@ -12,7 +12,6 @@ const Header = () => {
     const access_token = 'Bearer ' + token;
     const [userData, setUserData] = useState([]);
 
-    console.log(access_token)
     try {
         useEffect(() => {
         axios({
@@ -27,7 +26,6 @@ const Header = () => {
             method: "POST",
             data: null
         }).then(({data}) => {
-            console.log(data)
             setUserData(data);
             return data;
         });
@@ -36,20 +34,18 @@ const Header = () => {
         console.log(e)
     }
     if (userData.user) {
-        console.log(userData.user.name)
         return (
             <div className={styles.header_container}>
 
                 <p>hello {userData.user.name}</p>
-                <Buttons/>
+                <Logout/>
             </div>
         )
     }
 
     return (
         <div className={styles.header_container}>
-
-            {/*<p>hello {userData.user.name}</p>*/}
+            <p>Unauthorized</p>
             <Buttons/>
         </div>
         )
